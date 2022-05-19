@@ -9,11 +9,14 @@
 
 #include "ofMain.h"
 
-#define ATTRACT_SPEED 0.01
-#define REPULSE_SPEED 10
+//#define ATTRACT_SPEED 0.05
+//#define REPULSE_SPEED 5
 
 class Node{
 public:
+    float ATTRACT_SPEED = 0.05;
+    float REPULSE_SPEED = 5;
+    
     int id;
 //    position
     glm::vec2 pos;
@@ -31,12 +34,10 @@ public:
 //    apply step to the current position
     void move();
     
-    void draw();
-    
     void print();
     
-    bool operator<(const Node& other) const{
-        return other.id < id;
-    }
+//    bool operator<(const Node& other) const{
+//        return other.id < id;
+//    }
     
 };

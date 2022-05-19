@@ -12,7 +12,9 @@ Graph::Graph(){
 }
 
 Graph::~Graph(){
-
+    for(auto n : nodes)
+        delete n;
+    nodes.clear();
 }
 
 void Graph::addNode(int x, int y){
@@ -20,7 +22,6 @@ void Graph::addNode(int x, int y){
     size++;
     nodes.push_back(node);
     adj.push_back(vector<int>());
-//    visited.push_back(false);
 }
 
 void Graph::addEdge(int n1, int n2){
@@ -42,10 +43,13 @@ void Graph::split(){
     stack.push_back(0);
     vector<int> visited(size, false);
     visited[0] = true;
+    float dotSum;
 
     while(stack.size() > 0){
         int id = stack.back();
         stack.pop_back();
+        dotSum = 0;
+        Node node = *(nodes[id]);
 
         for(int i=0; i<adj[id].size(); i++){
             int adjId = adj[id][i];
@@ -54,25 +58,27 @@ void Graph::split(){
                 stack.push_back(adjId);
                 visited[adjId] = true;
 
-                Node node = *(nodes[id]);
                 Node adjNode = *(nodes[adjId]);
                 float dist = glm::distance(node.pos, adjNode.pos);
+//                split the edge in two
                 if(dist > MAX_ADJ_DIST){
                     glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
                     addNode(newPos.x, newPos.y);
                     splitEdge(id, adjId, size-1);
                 }
             }
+            if(i > 0){
+                glm::vec2 v1 = glm::normalize((*nodes[adj[id][i-1]]).pos-(*nodes[id]).pos);
+                glm::vec2 v2 = glm::normalize((*nodes[adj[id][i]]).pos-(*nodes[id]).pos);
+                dotSum += glm::dot(v1, v2);
+            }
         }
-    }
-    
-//    clearVisited();
-
-}
-
-void Graph::clearVisited(){
-    for(int i=0; i<visited.size();i++){
-        visited[i] = false;
+        if(adj[id].size()>0 && dotSum > 0 && ofRandom(CURVE_SPLIT) < dotSum/adj[id].size()){
+            Node adjNode = *(nodes[adj[id][0]]);
+            glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
+            addNode(newPos.x, newPos.y);
+            splitEdge(id, adj[id][0], size-1);
+        }
     }
 }
 
@@ -98,6 +104,7 @@ void Graph::repulse(){
         for(int j=0; j<nodes.size(); j++){
             if(i != j){
                 d = glm::distance((*nodes[i]).pos, (*nodes[j]).pos);
+//                replace this with kd-tree
                 if(d < MIN_DIST){
                     (*nodes[i]).repulse(*nodes[j]);
                     (*nodes[j]).repulse(*nodes[i]);
@@ -105,8 +112,6 @@ void Graph::repulse(){
             }
         }
     }
-    
-    
 }
 
 void Graph::move(){
@@ -124,7 +129,7 @@ void Graph::draw(){
     while(stack.size() > 0){
         int id = stack.back();
         stack.pop_back();
-        (*nodes[id]).draw();
+//        ofDrawCircle((*nodes[id]).pos, 1);
 
         for(int i=0; i<adj[id].size(); i++){
             int adjId = adj[id][i];
@@ -137,8 +142,6 @@ void Graph::draw(){
             }
         }
     }
-    
-//    clearVisited();
 
 }
 
@@ -155,4 +158,3 @@ void Graph::print(){
     }
 
 }
-

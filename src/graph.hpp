@@ -10,20 +10,16 @@
 #include "ofMain.h"
 #include "node.hpp"
 
-# define MIN_DIST 60
-#define MAX_ADJ_DIST 50
+
 
 class Graph{
 public:
-//    Node root;
-//    vector<Node*> nodes;
+    float MIN_DIST = 50;
+    float MAX_ADJ_DIST = 30;
+    float CURVE_SPLIT = 2;
     
     vector<Node*> nodes;
     vector<vector<int>> adj;
-    vector<bool> visited;
-    
-//    map<Node, vector<Node>> adj;
-//    map<Node, bool> visited;
 
     Graph();
     ~Graph();
@@ -46,6 +42,4 @@ public:
     void move();
     
     void print();
-
-    
 };

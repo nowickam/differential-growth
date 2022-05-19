@@ -20,11 +20,15 @@ Node::Node(int _id, int x, int y){
 
 void Node::attract(Node other){
     glm::vec2 mid;
+    glm::vec2 target = other.pos + 20 * glm::vec2(ofNoise(other.pos.x*0.1)-0.5, ofNoise(other.pos.y*0.1)-0.5);
 
-    mid = (other.pos - pos) * 0.5;
+    mid = (target - pos) * 0.5;
     mid *= ATTRACT_SPEED;
 
     step += mid;
+    
+//    ATTRACT_SPEED = (ofNoise(ofGetFrameNum()*0.01))*0.1;
+//    REPULSE_SPEED = (ofNoise(ofGetFrameNum()*0.01))*10;
     
 //    cout<<"att "<<step<<endl;
 }
@@ -32,9 +36,10 @@ void Node::attract(Node other){
 void Node::repulse(Node other){
     glm::vec2 diff = glm::normalize(pos - other.pos);
     float dist = glm::distance(pos, other.pos);
-    diff *= REPULSE_SPEED * 1 / dist;
-
-    step += diff;
+    if(dist > 0){
+        diff *= REPULSE_SPEED / (dist*1.5);
+        step += diff;
+    }
 
 //    cout<<"rep "<<step<<endl;
     
@@ -47,14 +52,7 @@ void Node::move(){
     step.x = step.y = 0;
 }
 
-void Node::draw(){
-    ofDrawCircle(pos, 5);
-}
-
 
 void Node::print(){
     cout<<"node "<<id<<endl;
-//    for(int j=0; j<adj.size(); j++){
-//        cout<<"\tadj "<<adj[j].pos<<endl;
-//    }
 }
