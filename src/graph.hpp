@@ -37,7 +37,7 @@ public:
     void repulse();
     
     void split();
-    void splitEdge(Node* n1, Node* n2, Node *newNode);
+    void splitEdge(int n1, int n2, int newNode);
     
     void draw();
     void update();

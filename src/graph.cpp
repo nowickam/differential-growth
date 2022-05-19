@@ -55,40 +55,41 @@ void Graph::split(){
 //    }
     
     
-//    vector<Node> stack;
-//    stack.push_back(*nodes[0]);
-////    cout<<nodes[0].visited<<endl;
-//    visited[*nodes[0]] = true;
-////    cout<<nodes[0].visited<<endl;
-//
-//    while(stack.size() > 0){
-////        for(auto n : stack)
-////            n.print();
-////        cout<<endl;
-//        Node node = stack.back();
-//        stack.pop_back();
-//
-//        for(int i=0; i<node.adj.size(); i++){
-//            Node adj = node.adj[i];
-//            if(!adj.visited){
-//                stack.push_back(adj);
-//                adj.visited = true;
-//
-//                float dist = glm::distance(node.pos, adj.pos);
-//                if(dist > MAX_ADJ_DIST){
-//                    glm::vec2 newPos = (node.pos + adj.pos) / 2;
-//                    Node newNode = Node(newPos.x, newPos.y);
-//                    addNode(&newNode);
-//                    splitEdge(&node, adj, &newNode);
-//                }
-//            }
-//        }
-//    }
+    vector<int> stack;
+    stack.push_back(0);
+//    cout<<nodes[0].visited<<endl;
+    visited[0] = true;
+//    cout<<nodes[0].visited<<endl;
+
+    while(stack.size() > 0){
+//        for(auto n : stack)
+//            n.print();
+//        cout<<endl;
+        int id = stack.back();
+        stack.pop_back();
+
+        for(int i=0; i<adj[id].size(); i++){
+            int adjId = adj[id][i];
+            if(!visited[adjId]){
+                stack.push_back(adjId);
+                visited[adjId] = true;
+
+                Node node = *(nodes[id]);
+                Node adjNode = *(nodes[adjId]);
+                float dist = glm::distance(node.pos, adjNode.pos);
+                if(dist > MAX_ADJ_DIST){
+                    glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
+                    addNode(newPos.x, newPos.y);
+                    splitEdge(id, adjId, size-1);
+                }
+            }
+        }
+    }
 //    cout<<"stack empty"<<endl;
 //
 }
 
-void Graph::splitEdge(Node *n1, Node *n2, Node *newNode){
+void Graph::splitEdge(int n1, int n2, int newNode){
 //    (*n1).deleteAdj(n2);
 //    (*n1).addAdj(newNode);
 //
@@ -97,6 +98,15 @@ void Graph::splitEdge(Node *n1, Node *n2, Node *newNode){
 //
 //    (*newNode).addAdj(n1);
 //    (*newNode).addAdj(n2);
+    
+    if(find(adj[n1].begin(), adj[n1].end(), n2) != adj[n1].end())
+        adj[n1].erase(find(adj[n1].begin(), adj[n1].end(), n2));
+    
+    if(find(adj[n2].begin(), adj[n2].end(), n1) != adj[n2].end())
+        adj[n2].erase(find(adj[n2].begin(), adj[n2].end(), n1));
+    
+    adj[newNode].push_back(n1);
+    adj[newNode].push_back(n2);
     
 }
 
@@ -138,7 +148,7 @@ void Graph::update(){
     attract();
     repulse();
     move();
-//    split();
+    split();
 }
 
 void Graph::print(){
