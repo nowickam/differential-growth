@@ -30,8 +30,9 @@ void Node::attract(Node other){
 }
 
 void Node::repulse(Node other){
-    glm::vec2 diff = pos - other.pos;
-    diff *= REPULSE_SPEED;
+    glm::vec2 diff = glm::normalize(pos - other.pos);
+    float dist = glm::distance(pos, other.pos);
+    diff *= REPULSE_SPEED * 1 / dist;
 
     step += diff;
 

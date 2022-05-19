@@ -20,7 +20,7 @@ void Graph::addNode(int x, int y){
     size++;
     nodes.push_back(node);
     adj.push_back(vector<int>());
-    visited.push_back(false);
+//    visited.push_back(false);
 }
 
 void Graph::addEdge(int n1, int n2){
@@ -38,39 +38,19 @@ void Graph::attract(){
 }
 
 void Graph::split(){
-//    for(int i=0; i<nodes.size(); i++){
-//        Node node = nodes[i];
-//        for(int j=0; j<node.adj.size(); j++){
-//            Node adj = nodes[i].adj[j];
-//            float dist = glm::distance(node.pos, adj.pos);
-//            if(dist > MAX_ADJ_DIST){
-//                glm::vec2 newPos = (node.pos + adj.pos) / 2;
-//                Node newNode = Node(newPos.x, newPos.y);
-//                addNode(&newNode);
-//                splitEdge(&node, &adj, &newNode);
-////                print();
-//
-//            }
-//        }
-//    }
-    
-    
     vector<int> stack;
     stack.push_back(0);
-//    cout<<nodes[0].visited<<endl;
+    vector<int> visited(size, false);
     visited[0] = true;
-//    cout<<nodes[0].visited<<endl;
 
     while(stack.size() > 0){
-//        for(auto n : stack)
-//            n.print();
-//        cout<<endl;
         int id = stack.back();
         stack.pop_back();
 
         for(int i=0; i<adj[id].size(); i++){
             int adjId = adj[id][i];
-            if(!visited[adjId]){
+//            if this edge was not yet traversed and it's not a new edge
+            if(!visited[adjId] && adjId < visited.size()){
                 stack.push_back(adjId);
                 visited[adjId] = true;
 
@@ -85,20 +65,18 @@ void Graph::split(){
             }
         }
     }
-//    cout<<"stack empty"<<endl;
-//
+    
+//    clearVisited();
+
+}
+
+void Graph::clearVisited(){
+    for(int i=0; i<visited.size();i++){
+        visited[i] = false;
+    }
 }
 
 void Graph::splitEdge(int n1, int n2, int newNode){
-//    (*n1).deleteAdj(n2);
-//    (*n1).addAdj(newNode);
-//
-//    (*n2).deleteAdj(n1);
-//    (*n2).addAdj(newNode);
-//
-//    (*newNode).addAdj(n1);
-//    (*newNode).addAdj(n2);
-    
     if(find(adj[n1].begin(), adj[n1].end(), n2) != adj[n1].end())
         adj[n1].erase(find(adj[n1].begin(), adj[n1].end(), n2));
     
@@ -107,6 +85,9 @@ void Graph::splitEdge(int n1, int n2, int newNode){
     
     adj[newNode].push_back(n1);
     adj[newNode].push_back(n2);
+    
+    adj[n1].push_back(newNode);
+    adj[n2].push_back(newNode);
     
 }
 
@@ -135,12 +116,29 @@ void Graph::move(){
 }
 
 void Graph::draw(){
-    for(int i=0; i<adj.size(); i++){
-        (*nodes[i]).draw();
-        for(int j=0; j<adj[i].size(); j++){
-            ofDrawLine((*nodes[i]).pos, (*nodes[adj[i][j]]).pos);
+    vector<int> stack;
+    stack.push_back(0);
+    vector<int> visited(size, false);
+    visited[0] = true;
+
+    while(stack.size() > 0){
+        int id = stack.back();
+        stack.pop_back();
+        (*nodes[id]).draw();
+
+        for(int i=0; i<adj[id].size(); i++){
+            int adjId = adj[id][i];
+            if(!visited[adjId]){
+                stack.push_back(adjId);
+                visited[adjId] = true;
+
+                ofDrawLine((*nodes[id]).pos, (*nodes[adjId]).pos);
+                
+            }
         }
     }
+    
+//    clearVisited();
 
 }
 

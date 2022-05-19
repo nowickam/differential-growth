@@ -5,13 +5,16 @@ void ofApp::setup(){
     graph = Graph();
     
     
-    graph.addNode(100, 100);
+    graph.addNode(100, ofGetHeight()/2);
+    graph.addNode(ofGetWidth()-100, ofGetHeight()/2-1);
+    
+    graph.addEdge(0, 1);
     
     
-    for(int i=1; i<5; i++){
-        graph.addNode(100+i*50, 100+i*10);
-        graph.addEdge(i, i-1);
-    }
+//    for(int i=1; i<2; i++){
+//        graph.addNode(100+i*50, 100+i*10);
+//        graph.addEdge(i, i-1);
+//    }
 
     graph.print();
 }

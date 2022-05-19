@@ -39,6 +39,8 @@ public:
     void split();
     void splitEdge(int n1, int n2, int newNode);
     
+    void clearVisited();
+    
     void draw();
     void update();
     void move();

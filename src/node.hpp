@@ -10,7 +10,7 @@
 #include "ofMain.h"
 
 #define ATTRACT_SPEED 0.01
-#define REPULSE_SPEED 0.01
+#define REPULSE_SPEED 10
 
 class Node{
 public:
