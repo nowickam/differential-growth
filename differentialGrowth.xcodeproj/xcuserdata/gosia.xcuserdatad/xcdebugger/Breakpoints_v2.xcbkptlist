@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "184"
             endingLineNumber = "184"
-            landmarkName = "Graph::move()"
+            landmarkName = "Graph::repulse()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "192"
             endingLineNumber = "192"
-            landmarkName = "Graph::draw()"
+            landmarkName = "Graph::move()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

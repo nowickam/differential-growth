@@ -17,6 +17,61 @@ Graph::~Graph(){
     nodes.clear();
 }
 
+void Graph::init(){    
+//    LINE
+//    addNode(100, ofGetHeight()/2);
+//    addNode(ofGetWidth()-100, ofGetHeight()/2-1);
+//
+//    addEdge(0, 1);
+    
+    
+//  TRIANGLE
+//    addNode(ofGetWidth()/2, ofGetHeight()/2-100);
+//    addNode(ofGetWidth()/2+100, ofGetHeight()/2+100);
+//    addNode(ofGetWidth()/2-100, ofGetHeight()/2+100);
+//
+//    addEdge(0, 1);
+//    addEdge(1, 2);
+//    addEdge(2, 0);
+    
+//    RANDOM
+//    int MARGIN = ofGetHeight()/3;
+//
+//    addNode(100, ofGetHeight()/2);
+//    for(int i=1; i<10; i++){
+//        addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
+//                      ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
+//        addEdge(i, i-1);
+//    }
+//
+//    addEdge(0, 3);
+//    addEdge(1, 4);
+//    addEdge(2, 9);
+    
+//    CIRCLE
+    int cor = 40;
+    int mid = 60;
+    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2-cor);
+    addNode(ofGetWidth()/2, ofGetHeight()/2-mid);
+    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2-cor);
+    addNode(ofGetWidth()/2 + mid, ofGetHeight()/2);
+    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2+cor);
+    addNode(ofGetWidth()/2, ofGetHeight()/2+mid);
+    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2+cor);
+    addNode(ofGetWidth()/2 - mid, ofGetHeight()/2);
+
+    addEdge(0, 1);
+    addEdge(1, 2);
+    addEdge(2, 3);
+    addEdge(3, 4);
+    addEdge(4, 5);
+    addEdge(5, 6);
+    addEdge(6, 7);
+    addEdge(7, 0);
+
+
+}
+
 void Graph::addNode(int x, int y){
     Node *node = new Node(size, x, y);
     size++;
@@ -68,13 +123,23 @@ void Graph::split(){
                 }
             }
             if(i > 0){
-                glm::vec2 v1 = glm::normalize((*nodes[adj[id][i-1]]).pos-(*nodes[id]).pos);
-                glm::vec2 v2 = glm::normalize((*nodes[adj[id][i]]).pos-(*nodes[id]).pos);
-                dotSum += 1-glm::abs(glm::dot(v1, v2));
+                glm::vec2 v1 = (*nodes[adj[id][i-1]]).pos-(*nodes[id]).pos;
+                glm::vec2 v2 = (*nodes[adj[id][i]]).pos-(*nodes[id]).pos;
+                float dot = glm::dot(v1, v2)/(glm::length(v1)*glm::length(v2));
+                dotSum += MAX(dot, 0);
             }
         }
         node.col = dotSum/adj[id].size();
         if(adj[id].size()>0 && dotSum > 0 && ofRandom(CURVE_SPLIT) < dotSum/adj[id].size()){
+            Node adjNode = *(nodes[adj[id][0]]);
+            if(glm::distance(node.pos, adjNode.pos) > MIN_SPLIT_DIST){
+                glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
+                addNode(newPos.x, newPos.y);
+                splitEdge(id, adj[id][0], size-1);
+            }
+        }
+        
+        if(ofRandom(1) < RANDOM_EDGE){
             Node adjNode = *(nodes[adj[id][0]]);
             glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
             addNode(newPos.x, newPos.y);
