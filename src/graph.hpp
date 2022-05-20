@@ -15,8 +15,10 @@
 class Graph{
 public:
     float MIN_DIST = 50;
-    float MAX_ADJ_DIST = 30;
-    float CURVE_SPLIT = 2;
+    float MAX_ADJ_DIST = 18;
+    float CURVE_SPLIT = 1;
+    float RANDOM_EDGE = 0.005;
+    float MIN_SPLIT_DIST = 2;
     
     vector<Node*> nodes;
     vector<vector<int>> adj;
@@ -42,4 +44,5 @@ public:
     void move();
     
     void print();
+    void init();
 };

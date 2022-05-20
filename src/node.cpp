@@ -20,8 +20,7 @@ Node::Node(int _id, int x, int y){
 
 void Node::attract(Node other){
     glm::vec2 mid;
-    glm::vec2 target = other.pos + 100 * glm::vec2(ofNoise((other.pos.x+ofGetFrameNum())*0.01)-0.5,
-                                                   ofNoise((other.pos.y+ofGetFrameNum())*0.01)-0.5);
+    glm::vec2 target = other.pos;// + 40 * glm::vec2(ofNoise((other.pos.x+ofGetFrameNum())*0.01)-0.5, ofNoise((other.pos.y+ofGetFrameNum())*0.01)-0.5);
 
     mid = (target - pos) * 0.5;
     mid *= ATTRACT_SPEED;

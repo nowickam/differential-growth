@@ -14,8 +14,8 @@
 
 class Node{
 public:
-    float ATTRACT_SPEED = 0.01;
-    float REPULSE_SPEED = 1;
+    float ATTRACT_SPEED = 0.05;
+    float REPULSE_SPEED = 5;
     
     int id;
 //    position

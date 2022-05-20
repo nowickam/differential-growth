@@ -7,44 +7,14 @@ void ofApp::setup(){
     ofClear(0,0,0,255);
     fbo.end();
     
-    shader.load("shaders/raymarching");
+    shader.load("shaders/simple");
     
     ofSetBackgroundAuto(false);
-    ofSetColor(255, 10);
+    ofSetColor(255, 25);
     ofBackground(0);
     
     graph = Graph();
-    
-    
-//    LINE
-//    graph.addNode(100, ofGetHeight()/2);
-//    graph.addNode(ofGetWidth()-100, ofGetHeight()/2-1);
-//
-//    graph.addEdge(0, 1);
-    
-    
-//  TRIANGLE
-//    graph.addNode(ofGetWidth()/2, ofGetHeight()/2-100);
-//    graph.addNode(ofGetWidth()/2+100, ofGetHeight()/2+100);
-//    graph.addNode(ofGetWidth()/2-100, ofGetHeight()/2+100);
-//
-//    graph.addEdge(0, 1);
-//    graph.addEdge(1, 2);
-//    graph.addEdge(2, 0);
-    
-//    RANDOM
-    graph.addNode(100, ofGetHeight()/2);
-    for(int i=1; i<10; i++){
-        graph.addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
-                      ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
-        graph.addEdge(i, i-1);
-    }
-    
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(2, 9);
-
-//    graph.print();
+    graph.init();
 }
 
 //--------------------------------------------------------------
@@ -74,20 +44,12 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if(key == ' '){
         ofBackground(0);
+        fbo.begin();
+        ofClear(0,0,0,255);
+        fbo.end();
         
         graph = Graph();
-        graph.addNode(100, ofGetHeight()/2);
-        for(int i=1; i<10; i++){
-            graph.addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
-                          ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
-            graph.addEdge(i, i-1);
-        }
-        
-        graph.addEdge(0, 3);
-        graph.addEdge(1, 4);
-        graph.addEdge(2, 9);
-
-        graph.print();
+        graph.init();
     }
 }
 
