@@ -129,7 +129,6 @@ void Graph::split(){
                 dotSum += MAX(dot, 0);
             }
         }
-        node.col = dotSum/adj[id].size();
         if(adj[id].size()>0 && dotSum > 0 && ofRandom(CURVE_SPLIT) < dotSum/adj[id].size()){
             Node adjNode = *(nodes[adj[id][0]]);
             if(glm::distance(node.pos, adjNode.pos) > MIN_SPLIT_DIST){
@@ -196,8 +195,6 @@ void Graph::draw(){
         int id = stack.back();
         stack.pop_back();
 //        ofDrawCircle((*nodes[id]).pos, 1);
-        Node node = *nodes[id];
-        ofSetColor(1.0*255, 10);
 
         for(int i=0; i<adj[id].size(); i++){
             int adjId = adj[id][i];

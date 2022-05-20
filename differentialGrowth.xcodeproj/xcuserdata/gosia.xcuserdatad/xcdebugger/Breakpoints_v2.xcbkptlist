@@ -14,9 +14,9 @@
             filePath = "src/graph.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "Graph::repulse()"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "Graph::move()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,9 +46,9 @@
             filePath = "src/graph.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "Graph::move()"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "Graph::draw()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

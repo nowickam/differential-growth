@@ -15,7 +15,6 @@ Node::Node(int _id, int x, int y){
     id = _id;
     pos = {x, y};
     step = {0,0};
-    col = 0;
 }
 
 
