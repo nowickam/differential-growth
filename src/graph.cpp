@@ -70,9 +70,10 @@ void Graph::split(){
             if(i > 0){
                 glm::vec2 v1 = glm::normalize((*nodes[adj[id][i-1]]).pos-(*nodes[id]).pos);
                 glm::vec2 v2 = glm::normalize((*nodes[adj[id][i]]).pos-(*nodes[id]).pos);
-                dotSum += glm::dot(v1, v2);
+                dotSum += 1-glm::abs(glm::dot(v1, v2));
             }
         }
+        node.col = dotSum/adj[id].size();
         if(adj[id].size()>0 && dotSum > 0 && ofRandom(CURVE_SPLIT) < dotSum/adj[id].size()){
             Node adjNode = *(nodes[adj[id][0]]);
             glm::vec2 newPos = (node.pos + adjNode.pos) / 2;
@@ -130,6 +131,8 @@ void Graph::draw(){
         int id = stack.back();
         stack.pop_back();
 //        ofDrawCircle((*nodes[id]).pos, 1);
+        Node node = *nodes[id];
+        ofSetColor(1.0*255, 10);
 
         for(int i=0; i<adj[id].size(); i++){
             int adjId = adj[id][i];

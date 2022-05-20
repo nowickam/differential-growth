@@ -14,10 +14,11 @@
 
 class Node{
 public:
-    float ATTRACT_SPEED = 0.05;
-    float REPULSE_SPEED = 5;
+    float ATTRACT_SPEED = 0.01;
+    float REPULSE_SPEED = 1;
     
     int id;
+    float col;
 //    position
     glm::vec2 pos;
 //    all the attractions from the neighbors, repulsions from others

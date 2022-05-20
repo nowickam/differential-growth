@@ -16,7 +16,7 @@ class Graph{
 public:
     float MIN_DIST = 50;
     float MAX_ADJ_DIST = 30;
-    float CURVE_SPLIT = 2;
+    float CURVE_SPLIT = 10;
     
     vector<Node*> nodes;
     vector<vector<int>> adj;

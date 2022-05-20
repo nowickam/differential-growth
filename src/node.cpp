@@ -15,12 +15,13 @@ Node::Node(int _id, int x, int y){
     id = _id;
     pos = {x, y};
     step = {0,0};
+    col = 0;
 }
 
 
 void Node::attract(Node other){
     glm::vec2 mid;
-    glm::vec2 target = other.pos + 20 * glm::vec2(ofNoise(other.pos.x*0.1)-0.5, ofNoise(other.pos.y*0.1)-0.5);
+    glm::vec2 target = other.pos;// + 20 * glm::vec2(ofNoise(other.pos.x*0.1)-0.5, ofNoise(other.pos.y*0.1)-0.5);
 
     mid = (target - pos) * 0.5;
     mid *= ATTRACT_SPEED;
