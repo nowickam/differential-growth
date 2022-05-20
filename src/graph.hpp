@@ -14,7 +14,7 @@
 
 class Graph{
 public:
-    float MIN_DIST = 50;
+    float MIN_DIST = 30;
     float MAX_ADJ_DIST = 18;
     float CURVE_SPLIT = 1;
     float RANDOM_EDGE = 0.005;

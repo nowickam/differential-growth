@@ -10,7 +10,7 @@ void ofApp::setup(){
     shader.load("shaders/simple");
     
     ofSetBackgroundAuto(false);
-    ofSetColor(255, 25);
+    ofSetColor(255, 30);
     ofBackground(0);
     
     graph = Graph();
