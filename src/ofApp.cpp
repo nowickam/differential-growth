@@ -2,11 +2,19 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    fbo.begin();
+    ofClear(0,0,0,255);
+    fbo.end();
+    
+    shader.load("shaders/raymarching");
+    
     ofSetBackgroundAuto(false);
     ofSetColor(255, 10);
-    ofBackground(20);
+    ofBackground(0);
     
     graph = Graph();
+    
     
 //    LINE
 //    graph.addNode(100, ofGetHeight()/2);
@@ -27,7 +35,8 @@ void ofApp::setup(){
 //    RANDOM
     graph.addNode(100, ofGetHeight()/2);
     for(int i=1; i<10; i++){
-        graph.addNode(ofRandomWidth(), ofRandomHeight());
+        graph.addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
+                      ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
         graph.addEdge(i, i-1);
     }
     
@@ -35,7 +44,7 @@ void ofApp::setup(){
     graph.addEdge(1, 4);
     graph.addEdge(2, 9);
 
-    graph.print();
+//    graph.print();
 }
 
 //--------------------------------------------------------------
@@ -45,18 +54,32 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+//    draw the graph into the depth buffer
+    fbo.begin();
+//    ofDrawCircle(0, 0, 100);
     graph.draw();
+    fbo.end();
+    
+    shader.begin();
+    shader.setUniformTexture("depth", fbo.getTexture(), 0);
+    shader.setUniform1f("width", ofGetWidth());
+    shader.setUniform1f("height", ofGetHeight());
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
+    shader.end();
+
+//    fbo.draw(0,0);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if(key == ' '){
-        ofBackground(20);
+        ofBackground(0);
         
         graph = Graph();
         graph.addNode(100, ofGetHeight()/2);
         for(int i=1; i<10; i++){
-            graph.addNode(ofRandomWidth(), ofRandomHeight());
+            graph.addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
+                          ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
             graph.addEdge(i, i-1);
         }
         

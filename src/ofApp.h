@@ -23,5 +23,9 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     Graph graph;
+    int MARGIN = 100;
+    
+    ofFbo fbo;
+    ofShader shader;
 		
 };
