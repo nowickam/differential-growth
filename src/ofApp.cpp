@@ -2,6 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    gui.setup();
+
+    gui.add(MIN_DIST.setup("MIN_DIST", 100, 10, 300));
+    gui.add(MAX_ADJ_DIST.setup("MAX_ADJ_DIST", 80, 10, 300));
+    gui.add(CURVE_SPLIT.setup("CURVE_SPLIT", 10, 1, 20));
+    gui.add(RANDOM_EDGE.setup("RANDOM_EDGE", 0.01, 0.001, 0.1));
+    gui.add(MIN_SPLIT_DIST.setup("MIN_SPLIT_DIST", 2, 2, 20));
+    
     fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     fbo.begin();
     ofClear(0,0,0,255);
@@ -13,12 +21,19 @@ void ofApp::setup(){
     ofSetColor(255, 30);
     ofBackground(0);
     
+    
     graph = Graph();
     graph.init();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    graph.MIN_DIST = MIN_DIST;
+    graph.MAX_ADJ_DIST = MAX_ADJ_DIST;
+    graph.CURVE_SPLIT = CURVE_SPLIT;
+    graph.RANDOM_EDGE = RANDOM_EDGE;
+    graph.MIN_SPLIT_DIST = MIN_SPLIT_DIST;
+    
     graph.update();
 }
 
@@ -38,6 +53,8 @@ void ofApp::draw(){
     shader.end();
 
 //    fbo.draw(0,0);
+    
+    gui.draw();
 }
 
 //--------------------------------------------------------------

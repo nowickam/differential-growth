@@ -1,9 +1,5 @@
 #version 120
 
-#define MAX_STEPS 1024
-#define MIN_DISTANCE 0.01
-#define MAX_DISTANCE 100
-
 // these are our textures
 uniform sampler2DRect depth;
 varying vec2 texCoordVarying;
@@ -27,8 +23,11 @@ void main()
     vec4 color = vec4(1.0);
     
     if(tex.r != 0.0){
-        vec4 color1 = green;
-        vec4 color2 = red;
+//        vec4 color1 = green;
+//        vec4 color2 = red;
+        
+        vec4 color1 = blue;
+        vec4 color2 = yellow;
         
         color = mix(color1, color2, tex.r);
         color += smoothstep(color2.r-.07, color2.r+.03, color.r);

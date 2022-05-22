@@ -35,39 +35,43 @@ void Graph::init(){
 //    addEdge(2, 0);
     
 //    RANDOM
-//    int MARGIN = ofGetHeight()/3;
-//
-//    addNode(100, ofGetHeight()/2);
-//    for(int i=1; i<10; i++){
-//        addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
-//                      ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
-//        addEdge(i, i-1);
-//    }
-//
-//    addEdge(0, 3);
-//    addEdge(1, 4);
-//    addEdge(2, 9);
+    int MARGIN = ofGetHeight()/3;
+
+    addNode(100, ofGetHeight()/2);
+    int n = floor(ofRandom(2, 20));
+    for(int i=1; i<n; i++){
+        addNode(ofClamp(ofRandomWidth(), MARGIN, ofGetWidth()-MARGIN),
+                      ofClamp(ofRandomHeight(), MARGIN, ofGetHeight()-MARGIN));
+        addEdge(i, i-1);
+    }
+    addEdge(0, n-1);
+    for(int i=0; i<ofRandom(10); i++){
+        int p = floor(ofRandom(n));
+        int r = floor(ofRandom(n));
+        if(p!=r)
+            addEdge(p, r);
+    }
     
 //    CIRCLE
-    int cor = 40;
-    int mid = 60;
-    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2-cor);
-    addNode(ofGetWidth()/2, ofGetHeight()/2-mid);
-    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2-cor);
-    addNode(ofGetWidth()/2 + mid, ofGetHeight()/2);
-    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2+cor);
-    addNode(ofGetWidth()/2, ofGetHeight()/2+mid);
-    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2+cor);
-    addNode(ofGetWidth()/2 - mid, ofGetHeight()/2);
-
-    addEdge(0, 1);
-    addEdge(1, 2);
-    addEdge(2, 3);
-    addEdge(3, 4);
-    addEdge(4, 5);
-    addEdge(5, 6);
-    addEdge(6, 7);
-    addEdge(7, 0);
+//    int cor = 40;
+//    int mid = 60;
+//    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2-cor);
+//    addNode(ofGetWidth()/2, ofGetHeight()/2-mid);
+//    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2-cor);
+//    addNode(ofGetWidth()/2 + mid, ofGetHeight()/2);
+//    addNode(ofGetWidth()/2 + cor, ofGetHeight()/2+cor);
+//    addNode(ofGetWidth()/2, ofGetHeight()/2+mid);
+//    addNode(ofGetWidth()/2 - cor, ofGetHeight()/2+cor);
+//    addNode(ofGetWidth()/2 - mid, ofGetHeight()/2);
+//
+//    addEdge(0, 1);
+//    addEdge(1, 2);
+//    addEdge(2, 3);
+//    addEdge(3, 4);
+//    addEdge(4, 5);
+//    addEdge(5, 6);
+//    addEdge(6, 7);
+//    addEdge(7, 0);
 
 
 }

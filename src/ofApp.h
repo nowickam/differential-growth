@@ -2,6 +2,8 @@
 
 #include "ofMain.h"
 #include "graph.hpp"
+#include "ofxGui.h"
+
 
 class ofApp : public ofBaseApp{
 
@@ -23,7 +25,13 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     Graph graph;
-    
+
+    ofxPanel gui;
+    ofxFloatSlider MIN_DIST;
+    ofxFloatSlider MAX_ADJ_DIST;
+    ofxFloatSlider CURVE_SPLIT;
+    ofxFloatSlider RANDOM_EDGE;
+    ofxFloatSlider MIN_SPLIT_DIST;
     
     ofFbo fbo;
     ofShader shader;

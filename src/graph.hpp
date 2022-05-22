@@ -14,10 +14,10 @@
 
 class Graph{
 public:
-    float MIN_DIST = 30;
-    float MAX_ADJ_DIST = 18;
-    float CURVE_SPLIT = 1;
-    float RANDOM_EDGE = 0.005;
+    float MIN_DIST = 100;
+    float MAX_ADJ_DIST = 80;
+    float CURVE_SPLIT = 10;
+    float RANDOM_EDGE = 0.01;
     float MIN_SPLIT_DIST = 2;
     
     vector<Node*> nodes;
