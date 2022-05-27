@@ -9,16 +9,17 @@ void ofApp::setup(){
     gui.add(CURVE_SPLIT.setup("CURVE_SPLIT", 10, 1, 20));
     gui.add(RANDOM_EDGE.setup("RANDOM_EDGE", 0.01, 0.001, 0.1));
     gui.add(MIN_SPLIT_DIST.setup("MIN_SPLIT_DIST", 2, 2, 20));
+    gui.add(RAYMARCHING.setup("RAYMARCHING", false));
     
     fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     fbo.begin();
     ofClear(0,0,0,255);
     fbo.end();
     
-    shader.load("shaders/raymarching");
+    shader.load("shaders/simple");
     
     ofSetBackgroundAuto(false);
-    ofSetColor(255, 50);
+    ofSetColor(255, 30);
     ofBackground(0);
     
     
@@ -34,6 +35,11 @@ void ofApp::update(){
     graph.RANDOM_EDGE = RANDOM_EDGE;
     graph.MIN_SPLIT_DIST = MIN_SPLIT_DIST;
     
+    if(RAYMARCHING)
+        shader.load("shaders/raymarching");
+    else
+        shader.load("shaders/simple");
+    
     graph.update();
 }
 
@@ -41,23 +47,18 @@ void ofApp::update(){
 void ofApp::draw(){
 //    draw the graph into the depth buffer
     fbo.begin();
-//    ofDrawCircle(0, 0, 100);
     graph.draw();
     fbo.end();
     
-    
-    
+        
     shader.begin();
     shader.setUniformTexture("depth", fbo.getTexture(), 0);
-    shader.setUniformTexture("screen", screen, 1);
     shader.setUniform1f("width", ofGetWidth());
     shader.setUniform1f("height", ofGetHeight());
+    shader.setUniform1f("mouseX", mouseX);
+    shader.setUniform1f("mouseY", mouseY);
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
     shader.end();
-
-//    fbo.draw(0,0);
-    
-    screen.loadScreenData(0,0,ofGetWidth(), ofGetHeight());
     
     gui.draw();
 }

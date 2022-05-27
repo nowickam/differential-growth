@@ -32,6 +32,7 @@ class ofApp : public ofBaseApp{
     ofxFloatSlider CURVE_SPLIT;
     ofxFloatSlider RANDOM_EDGE;
     ofxFloatSlider MIN_SPLIT_DIST;
+    ofxToggle RAYMARCHING;
     
     ofFbo fbo;
     ofShader shader;
