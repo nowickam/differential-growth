@@ -29,9 +29,17 @@ void main()
         vec4 color1 = blue;
         vec4 color2 = yellow;
         
+        gl_FragColor = vec4(0.);
+        
         color = mix(color1, color2, tex.r);
         color += smoothstep(color2.r-.07, color2.r+.03, color.r);
+        gl_FragColor += vec4(0.1/length(uv-0.075-uv)*color);
+        gl_FragColor.xyz = pow(gl_FragColor.xyz,vec3(3.));
+        gl_FragColor.w = 1.0;
+    }
+    else{
+        gl_FragColor = vec4(0.,0.,0.,1.);
     }
 
-    gl_FragColor = tex*color;
+//    gl_FragColor = tex*color;
 }

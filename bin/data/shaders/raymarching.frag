@@ -1,7 +1,7 @@
 #version 120
 
-#define MAX_STEPS 1024
-#define MIN_DISTANCE 0.01
+#define MAX_STEPS 16
+#define MIN_DISTANCE 0.1
 #define MAX_DISTANCE 100
 
 // these are our textures
@@ -10,9 +10,25 @@ varying vec2 texCoordVarying;
 
 uniform float width, height;
 
+float random (vec2 uv) {
+  return fract(sin(dot(uv.xy,
+                       vec2(12.9898,78.233)))*
+      43758.5453123);
+  }
+
+float noise(vec2 st){
+  vec2 i=floor(st);
+  vec2 f=fract(st);
+  vec2 u=f*f*(3.-2.*f);
+  return mix(mix(random(i+vec2(0.,0.)),random(i+vec2(1.,0.)),u.x),
+  mix(random(i+vec2(0.,1.)),random(i+vec2(1.,1.)),u.x),u.y);
+}
+
 float map(vec3 p) {
 //    return length(p) - 2.0;
-    return texture2DRect(depth, gl_FragCoord.xy * length(p)).r;
+    float final = length(p)*(texture2DRect(depth, gl_FragCoord.xy).r);
+    final = abs(final*final*final);
+    return final;
 }
 
 vec3 getNormal(vec3 p) {
@@ -25,7 +41,7 @@ vec3 getNormal(vec3 p) {
 }
 
 float diffuseLighting(vec3 p) {
-  vec3 lightPosition = vec3(2.0, 2.0, -5.0);
+  vec3 lightPosition = vec3(.0, .0, -20.0);
 
   vec3 light = normalize(lightPosition - p);
   vec3 normal = getNormal(p);
@@ -34,6 +50,8 @@ float diffuseLighting(vec3 p) {
 
   return diffuse;
 }
+
+
 
 void main()
 {
@@ -45,7 +63,7 @@ void main()
 //    vec2 uv = gl_FragCoord.xy;
     
     // throw rays from the camera to each pixel
-    vec3 rayOrigin = vec3(0., 0., -3.);
+    vec3 rayOrigin = vec3(0.1, 0.1, -3.);
     vec3 rayDirection = normalize(vec3(uv, 1.));
     
     float distanceOrigin = 0.;

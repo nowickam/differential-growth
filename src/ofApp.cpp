@@ -15,10 +15,10 @@ void ofApp::setup(){
     ofClear(0,0,0,255);
     fbo.end();
     
-    shader.load("shaders/simple");
+    shader.load("shaders/raymarching");
     
     ofSetBackgroundAuto(false);
-    ofSetColor(255, 30);
+    ofSetColor(255, 50);
     ofBackground(0);
     
     
@@ -45,14 +45,19 @@ void ofApp::draw(){
     graph.draw();
     fbo.end();
     
+    
+    
     shader.begin();
     shader.setUniformTexture("depth", fbo.getTexture(), 0);
+    shader.setUniformTexture("screen", screen, 1);
     shader.setUniform1f("width", ofGetWidth());
     shader.setUniform1f("height", ofGetHeight());
     ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
     shader.end();
 
 //    fbo.draw(0,0);
+    
+    screen.loadScreenData(0,0,ofGetWidth(), ofGetHeight());
     
     gui.draw();
 }

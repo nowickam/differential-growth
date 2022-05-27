@@ -35,5 +35,6 @@ class ofApp : public ofBaseApp{
     
     ofFbo fbo;
     ofShader shader;
+    ofTexture screen;
 		
 };
